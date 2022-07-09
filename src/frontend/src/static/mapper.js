@@ -3,6 +3,11 @@ export const pizzaType = {
   2: "big",
 };
 
+export const pizzaDoughType = {
+  1: "light",
+  2: "large",
+};
+
 export const pizzaSauce = {
   1: "tomato",
   2: "creamy",

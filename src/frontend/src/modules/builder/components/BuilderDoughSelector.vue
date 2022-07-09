@@ -23,6 +23,7 @@
 <script>
 import RadioButton from "@/common/components/RadioButton";
 import { defaultDough } from "@/static/constants";
+import { pizzaDoughType } from "@/static/mapper";
 
 export default {
   name: "BuilderDoughSelector",
@@ -42,13 +43,12 @@ export default {
   data() {
     return {
       defaultDough,
+      pizzaDoughType,
     };
   },
   methods: {
     getDoughType(type) {
-      const types = { 1: "light", 2: "large" };
-
-      return types[type] || "";
+      return pizzaDoughType[type] || "";
     },
     doughHandler(value) {
       this.$emit("getDoughType", value);

@@ -35,10 +35,6 @@ export default {
       type: Number,
       required: true,
     },
-    userSelectedIngredients: {
-      type: Object,
-      require: true,
-    },
   },
   data() {
     return {
