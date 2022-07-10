@@ -12,9 +12,9 @@
 
     <div class="content__constructor">
       <div class="pizza" :class="resultClassPizza">
-        <DropItem @drop="dropItemHandler">
+        <AppDrop @drop="dropItemHandler">
           <SelectorItem :userSelectedIngredients="userSelectedIngredients" />
-        </DropItem>
+        </AppDrop>
       </div>
     </div>
     <BuilderPriceCounter
@@ -25,7 +25,7 @@
   </div>
 </template>
 <script>
-import DropItem from "@/common/components/DropItem";
+import AppDrop from "@/common/components/AppDrop";
 import BuilderPriceCounter from "@/modules/builder/components/BuilderPriceCounter";
 import SelectorItem from "@/common/components/SelectorItem";
 import { pizzaType, pizzaSauce } from "@/static/mapper";
@@ -51,7 +51,7 @@ export default {
     },
   },
   components: {
-    DropItem,
+    AppDrop,
     BuilderPriceCounter,
     SelectorItem,
   },

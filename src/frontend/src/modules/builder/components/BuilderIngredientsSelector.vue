@@ -12,9 +12,9 @@
             :key="`sauce-${sauce.id}`"
             @changeRadio="sauceHandler"
             :value="sauce.id"
-            classes="radio ingredients__input"
+            class="radio ingredients__input"
             name="sauce"
-            :checked="sauce.id === defaultSauce"
+            :checked="sauce.id === DEFAULT_SAUCE"
           >
             <span>{{ sauce.name }}</span>
           </RadioButton>
@@ -29,7 +29,7 @@
               :key="`ingredient-${ingredient.id}`"
               class="ingredients__item"
             >
-              <DragItem
+              <AppDrag
                 :transferData="ingredient"
                 :isDraggable="!isDisabled(ingredient.id)"
               >
@@ -38,7 +38,7 @@
                 >
                   {{ ingredient.name }}
                 </span>
-              </DragItem>
+              </AppDrag>
               <itemCounter
                 :ingredient="ingredient.id"
                 :disabled="isDisabled(ingredient.id)"
@@ -54,10 +54,10 @@
   </div>
 </template>
 <script>
-import DragItem from "@/common/components/DragItem";
+import AppDrag from "@/common/components/AppDrag";
 import ItemCounter from "@/common/components/ItemCounter";
 import RadioButton from "@/common/components/RadioButton";
-import { defaultSauce } from "@/static/constants";
+import { DEFAULT_SAUCE } from "@/static/constants";
 import { ingredientsNames } from "@/static/mapper";
 
 export default {
@@ -77,13 +77,13 @@ export default {
     },
   },
   components: {
-    DragItem,
+    AppDrag,
     ItemCounter,
     RadioButton,
   },
   data() {
     return {
-      defaultSauce,
+      DEFAULT_SAUCE,
       ingredientsNames,
     };
   },

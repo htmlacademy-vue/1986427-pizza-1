@@ -1,5 +1,5 @@
 <template>
-  <label :class="classes">
+  <label>
     <input
       @click="handleInput($event.target.value)"
       :name="name"
@@ -16,10 +16,6 @@
 export default {
   name: "RadioButton",
   props: {
-    classes: {
-      type: String,
-      required: true,
-    },
     name: {
       type: String,
       default: "",

@@ -2,7 +2,7 @@
   <div class="counter counter--orange ingredients__counter">
     <button
       @click="subtraction"
-      :disabled="disabledMinus"
+      :disabled="value <= 0"
       type="button"
       class="counter__button counter__button--minus"
     >
@@ -36,37 +36,16 @@ export default {
       required: true,
     },
   },
-  data() {
-    return {
-      count: this.value,
-    };
-  },
-  computed: {
-    disabledMinus() {
-      return this.count <= 0;
-    },
-  },
-  watch: {
-    value: {
-      handler(val) {
-        if (val) {
-          this.count = val;
-        }
-      },
-    },
-  },
   methods: {
     subtraction() {
-      this.count = this.count > 0 ? this.count - 1 : 0;
       this.$emit("countHandler", {
-        count: this.count,
+        count: this.value - 1,
         ingredient: this.ingredient,
       });
     },
     addition() {
-      this.count = this.count + 1;
       this.$emit("countHandler", {
-        count: this.count,
+        count: this.value + 1,
         ingredient: this.ingredient,
       });
     },

@@ -9,8 +9,8 @@
           :key="`item-${item.id}`"
           @changeRadio="doughHandler"
           :value="item.id"
-          :checked="item.id === defaultDough"
-          :classes="`dough__input dough__input--${getDoughType(item.id)}`"
+          :checked="item.id === DEFAULT_DOUGH"
+          :class="`dough__input dough__input--${getDoughType(item.id)}`"
           name="dought"
         >
           <b>{{ item.name }}</b>
@@ -22,7 +22,7 @@
 </template>
 <script>
 import RadioButton from "@/common/components/RadioButton";
-import { defaultDough } from "@/static/constants";
+import { DEFAULT_DOUGH } from "@/static/constants";
 import { pizzaDoughType } from "@/static/mapper";
 
 export default {
@@ -42,7 +42,7 @@ export default {
   },
   data() {
     return {
-      defaultDough,
+      DEFAULT_DOUGH,
       pizzaDoughType,
     };
   },

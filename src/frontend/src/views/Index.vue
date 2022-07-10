@@ -122,9 +122,9 @@ export default {
         const idIngredient = parseInt(itemId);
         const item = userIngredients[idIngredient];
 
-        const price = allIngredients.filter(
-          (item) => item.id === idIngredient
-        )[0]["price"];
+        const price = allIngredients.find((item) => item.id === idIngredient)[
+          "price"
+        ];
 
         total += item.count * price;
       });

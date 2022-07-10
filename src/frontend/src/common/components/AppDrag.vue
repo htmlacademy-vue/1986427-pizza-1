@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { transferPayload, move } from "@/static/constants";
+import { DATA_TRANSFER_PAYLOAD, MOVE } from "@/static/constants";
 
 export default {
   name: "DragItem",
@@ -26,15 +26,18 @@ export default {
   },
   data() {
     return {
-      transferPayload,
-      move,
+      DATA_TRANSFER_PAYLOAD,
+      MOVE,
     };
   },
   methods: {
     onDrag({ dataTransfer }) {
-      dataTransfer.effectAllowed = move;
-      dataTransfer.dropEffect = move;
-      dataTransfer.setData(transferPayload, JSON.stringify(this.transferData));
+      dataTransfer.effectAllowed = MOVE;
+      dataTransfer.dropEffect = MOVE;
+      dataTransfer.setData(
+        DATA_TRANSFER_PAYLOAD,
+        JSON.stringify(this.transferData)
+      );
     },
   },
 };

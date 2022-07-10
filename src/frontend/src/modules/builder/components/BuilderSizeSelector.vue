@@ -9,8 +9,8 @@
           :key="`size-${size.id}`"
           @changeRadio="sizeHandler"
           :value="size.id"
-          :checked="size.id === defaultSize"
-          :classes="`diameter__input diameter__input--${getSize(size.id)}`"
+          :checked="size.id === DEFAULT_SIZE"
+          :class="`diameter__input diameter__input--${getSize(size.id)}`"
           name="diameter"
         >
           <span>{{ size.name }}</span>
@@ -21,7 +21,7 @@
 </template>
 <script>
 import RadioButton from "@/common/components/RadioButton";
-import { defaultSize } from "@/static/constants";
+import { DEFAULT_SIZE } from "@/static/constants";
 
 export default {
   name: "BuilderSizeSelector",
@@ -36,7 +36,7 @@ export default {
   },
   data() {
     return {
-      defaultSize,
+      DEFAULT_SIZE,
     };
   },
   methods: {

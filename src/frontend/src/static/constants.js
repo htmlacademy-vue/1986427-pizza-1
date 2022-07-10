@@ -1,9 +1,9 @@
-export const defaultSauce = 1;
+export const DEFAULT_SAUCE = 1;
 
-export const defaultDough = 1;
+export const DEFAULT_DOUGH = 1;
 
-export const defaultSize = 2;
+export const DEFAULT_SIZE = 2;
 
-export const transferPayload = "payload";
+export const DATA_TRANSFER_PAYLOAD = "payload";
 
-export const move = "move";
+export const MOVE = "MOVE";
