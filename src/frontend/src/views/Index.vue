@@ -1,82 +1,28 @@
 <template>
-  <!DOCTYPE html>
-  <html lang="ru">
-    <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <link
-        rel="preload"
-        href="fonts/roboto-bold.woff2"
-        as="font"
-        type="font/woff2"
-        crossorigin="anonymous"
-      />
-      <link
-        rel="preload"
-        href="fonts/roboto-regular.woff2"
-        as="font"
-        type="font/woff2"
-        crossorigin="anonymous"
-      />
-      <link
-        rel="preload"
-        href="fonts/roboto-light.woff2"
-        as="font"
-        type="font/woff2"
-        crossorigin="anonymous"
-      />
-      <link
-        rel="preload"
-        href="fonts/roboto-bold.woff"
-        as="font"
-        type="font/woff"
-        crossorigin="anonymous"
-      />
-      <link
-        rel="preload"
-        href="fonts/roboto-regular.woff"
-        as="font"
-        type="font/woff"
-        crossorigin="anonymous"
-      />
-      <link
-        rel="preload"
-        href="fonts/roboto-light.woff"
-        as="font"
-        type="font/woff"
-        crossorigin="anonymous"
-      />
-      <link rel="stylesheet" href="css/style.min.css" />
-      <title>V!U!E! Pizza - главная</title>
-    </head>
-    <body>
-      <AppLayout :userOrder="userOrder" />
-      <main class="content">
-        <form action="#" method="post">
-          <div class="content__wrapper">
-            <h1 class="title title--big">Конструктор пиццы</h1>
-            <BuilderDoughSelector @getDoughType="getDoughType" :dough="dough" />
-            <BuilderSizeSelector @getSize="getSize" :sizes="sizes" />
-            <BuilderIngredientsSelector
-              @getSauce="getSauce"
-              @getIngredients="getIngredients"
-              :userSelectedIngredients="userSelectedIngredients"
-              :ingredients="ingredients"
-              :sauces="sauces"
-            />
-            <BuilderPizzaView
-              :userSelectedIngredients="userSelectedIngredients"
-              @addToCard="addToCardHandler"
-              @dropItem="dropItemHandler"
-              :selectedDough="selectedDough"
-              :selectedSauce="selectedSauce"
-              :price="calcPrice"
-            />
-          </div>
-        </form>
-      </main>
-    </body>
-  </html>
+  <main class="content">
+    <form action="#" method="post">
+      <div class="content__wrapper">
+        <h1 class="title title--big">Конструктор пиццы</h1>
+        <BuilderDoughSelector @getDoughType="getDoughType" :dough="dough" />
+        <BuilderSizeSelector @getSize="getSize" :sizes="sizes" />
+        <BuilderIngredientsSelector
+          @getSauce="getSauce"
+          @getIngredients="getIngredients"
+          :userSelectedIngredients="userSelectedIngredients"
+          :ingredients="ingredients"
+          :sauces="sauces"
+        />
+        <BuilderPizzaView
+          :userSelectedIngredients="userSelectedIngredients"
+          @addToCard="addToCardHandler"
+          @dropItem="dropItemHandler"
+          :selectedDough="selectedDough"
+          :selectedSauce="selectedSauce"
+          :price="calcPrice"
+        />
+      </div>
+    </form>
+  </main>
 </template>
 
 <script>
@@ -85,13 +31,11 @@ import BuilderDoughSelector from "@/modules/builder/components/BuilderDoughSelec
 import BuilderSizeSelector from "@/modules/builder/components/BuilderSizeSelector";
 import BuilderIngredientsSelector from "@/modules/builder/components/BuilderIngredientsSelector";
 import BuilderPizzaView from "@/modules/builder/components/BuilderPizzaView";
-import AppLayout from "@/layouts/AppLayout.vue";
 import { ingredientsNames } from "@/static/mapper";
 
 export default {
   name: "Index",
   components: {
-    AppLayout,
     BuilderDoughSelector,
     BuilderSizeSelector,
     BuilderIngredientsSelector,
@@ -172,12 +116,15 @@ export default {
         count,
       });
     },
-    addToCardHandler() {
+    addToCardHandler(order) {
+      this.pizzaName = order.name;
       this.$set(this.userOrder, 0, {
         compound: this.userSelectedIngredients,
         price: this.calcPrice,
-        pizzaName: this.pizzaName,
+        pizzaName: order.name,
       });
+
+      this.$emit("updateOrder", this.userOrder);
     },
     dropItemHandler(value) {
       this.getIngredients(value);
