@@ -11,7 +11,7 @@
       </router-link>
     </div>
     <div class="header__cart">
-      <router-link :to="{ name: 'Cart' }"
+      <router-link to="/cart"
         >{{
           Object.keys(userOrder).length ? userOrder[0].price : 0
         }}
@@ -36,7 +36,7 @@
             height="32"
           />
         </picture>
-        <span>{{ user.name }}</span>
+        <span>Василий Ложкин</span>
       </router-link>
       <router-link to="/logout" class="header__logout">
         <span>Выйти</span>
@@ -50,7 +50,6 @@
   </header>
 </template>
 <script>
-import user from "@/static/user.json";
 export default {
   name: "AppLayoutHeader",
   props: {
@@ -62,7 +61,6 @@ export default {
   data() {
     return {
       isAuth: true,
-      user,
     };
   },
 };
