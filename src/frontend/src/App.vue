@@ -73,7 +73,7 @@ export default {
   },
   methods: {
     updateOrderHandler(order) {
-      this.set(this.userOrder, order);
+      this.$set(this.userOrder, order);
     },
   },
 };
