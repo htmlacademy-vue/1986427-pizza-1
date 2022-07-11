@@ -49,13 +49,14 @@
     </div>
   </header>
 </template>
+
 <script>
 export default {
   name: "AppLayoutHeader",
   props: {
     userOrder: {
       type: Object,
-      default: () => {},
+      default: () => ({}),
     },
   },
   data() {
