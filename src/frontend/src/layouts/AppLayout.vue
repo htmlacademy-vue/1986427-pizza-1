@@ -1,33 +1,31 @@
 <template>
-  <header class="header">
-    <div class="header__logo">
-      <a href="/index.html" class="logo">
-        <img
-          src="img/logo.svg"
-          alt="V!U!E! Pizza logo"
-          width="90"
-          height="40"
-        />
-      </a>
-    </div>
-    <div class="header__cart">
-      <a href="cart.html"
-        >{{ Object.keys(userOrder).length ? userOrder[0].price : 0 }} ₽</a
-      >
-    </div>
-    <div class="header__user">
-      <a href="#" class="header__login"><span>Войти</span></a>
-    </div>
-  </header>
+  <component
+    @updateOrder="updateOrderHandler"
+    :is="layout"
+    :userOrder="userOrder"
+  >
+    <router-view @updateOrder="updateOrderHandler" />
+  </component>
 </template>
 
 <script>
 export default {
-  name: "BuilderPizzaView",
-  props: {
-    userOrder: {
-      type: Object,
-      required: true,
+  name: "AppLayout",
+  data() {
+    return {
+      userOrder: {},
+    };
+  },
+  computed: {
+    layout() {
+      const layouts = this.$route.meta?.layout || "AppLayoutDefault";
+
+      return () => import(`@/layouts/${layouts}.vue`);
+    },
+  },
+  methods: {
+    updateOrderHandler(order) {
+      this.userOrder = order;
     },
   },
 };
