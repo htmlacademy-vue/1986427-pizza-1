@@ -31,19 +31,25 @@
             >
               <AppDrag
                 :transferData="ingredient"
-                :isDraggable="!isDisabled(ingredient.id)"
+                :isDraggable="
+                  !isDisabled(ingredient.id, getUserSelectedIngredients)
+                "
               >
                 <span
-                  :class="`filling filling--${ingredientsNames[ingredient.id]}`"
+                  :class="`filling filling--${
+                    ingredientsClassNames[ingredient.id]
+                  }`"
                 >
                   {{ ingredient.name }}
                 </span>
               </AppDrag>
               <itemCounter
-                :ingredient="ingredient.id"
-                :disabled="isDisabled(ingredient.id)"
-                :value="getCount(ingredient.id)"
-                :userSelectedIngredients="userSelectedIngredients"
+                class="counter--orange ingredients__counter"
+                :itemId="ingredient.id"
+                :disabled="
+                  isDisabled(ingredient.id, getUserSelectedIngredients)
+                "
+                :value="getCount(ingredient.id, getUserSelectedIngredients)"
                 @countHandler="countHandler"
               />
             </li>
@@ -58,24 +64,12 @@ import AppDrag from "@/common/components/AppDrag";
 import ItemCounter from "@/common/components/ItemCounter";
 import RadioButton from "@/common/components/RadioButton";
 import { DEFAULT_SAUCE } from "@/static/constants";
-import { ingredientsNames } from "@/static/mapper";
+import { isDisabled, getCount } from "@/static/helper";
+import { ingredientsClassNames } from "@/static/mapper";
+import { mapActions, mapState, mapGetters } from "vuex";
 
 export default {
   name: "BuilderIngredientsSelector",
-  props: {
-    ingredients: {
-      type: Array,
-      require: true,
-    },
-    userSelectedIngredients: {
-      type: Object,
-      require: true,
-    },
-    sauces: {
-      type: Array,
-      require: true,
-    },
-  },
   components: {
     AppDrag,
     ItemCounter,
@@ -84,41 +78,22 @@ export default {
   data() {
     return {
       DEFAULT_SAUCE,
-      ingredientsNames,
+      ingredientsClassNames,
+      isDisabled,
+      getCount,
     };
   },
+  computed: {
+    ...mapState("Builder", ["sauces", "ingredients"]),
+    ...mapGetters("Builder", ["getUserSelectedIngredients"]),
+  },
   methods: {
+    ...mapActions("Builder", ["setSauce", "updateIngredients", "setPrice"]),
     sauceHandler(value) {
-      this.$emit("getSauce", value);
+      this.setSauce(value);
     },
     countHandler(value) {
-      this.$emit("getIngredients", value);
-    },
-    getCount(id) {
-      if (Object.keys(this.userSelectedIngredients).length === 0) {
-        return 0;
-      }
-      if (this.userSelectedIngredients[id]) {
-        return this.userSelectedIngredients[id].count;
-      }
-      return 0;
-    },
-    isDisabled(id) {
-      if (Object.keys(this.userSelectedIngredients).length === 0) {
-        return false;
-      }
-
-      if (
-        this.userSelectedIngredients[id] &&
-        this.userSelectedIngredients[id].count > 2
-      ) {
-        return true;
-      }
-
-      return (
-        Object.keys(this.userSelectedIngredients).length > 2 &&
-        this.userSelectedIngredients[id] === undefined
-      );
+      this.updateIngredients(value);
     },
   },
 };

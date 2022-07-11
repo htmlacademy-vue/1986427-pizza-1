@@ -26,4 +26,9 @@ export default [
     name: "Profile",
     component: () => import("@/views/Profile"),
   },
+  {
+    path: "/order-complete",
+    name: "OrderComplete",
+    component: () => import("@/views/OrderComplete"),
+  },
 ];

@@ -51,8 +51,8 @@
     </head>
     <body>
       <div id="app">
-        <AppLayout :userOrder="userOrder">
-          <router-view @updateOrder="updateOrderHandler" />
+        <AppLayout>
+          <router-view />
         </AppLayout>
       </div>
     </body>
@@ -66,15 +66,9 @@ export default {
   components: {
     AppLayout,
   },
-  data() {
-    return {
-      userOrder: {},
-    };
-  },
-  methods: {
-    updateOrderHandler(order) {
-      this.$set(this.userOrder, order);
-    },
+  created() {
+    this.$store.dispatch("Builder/init");
+    this.$store.dispatch("Orders/init");
   },
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="counter counter--orange ingredients__counter">
+  <div class="counter">
     <button
       @click="subtraction"
       :disabled="value <= 0"
@@ -13,7 +13,7 @@
       @click="addition"
       :disabled="disabled"
       type="button"
-      class="counter__button counter__button--plus"
+      :class="`counter__button counter__button--plus ${modificatorRightBtn}`"
     >
       <span class="visually-hidden">Больше</span>
     </button>
@@ -27,7 +27,7 @@ export default {
       type: Boolean,
       required: true,
     },
-    ingredient: {
+    itemId: {
       type: Number,
       required: true,
     },
@@ -35,18 +35,22 @@ export default {
       type: Number,
       required: true,
     },
+    modificatorRightBtn: {
+      type: String,
+      default: "",
+    },
   },
   methods: {
     subtraction() {
       this.$emit("countHandler", {
         count: this.value - 1,
-        ingredient: this.ingredient,
+        id: this.itemId,
       });
     },
     addition() {
       this.$emit("countHandler", {
         count: this.value + 1,
-        ingredient: this.ingredient,
+        id: this.itemId,
       });
     },
   },

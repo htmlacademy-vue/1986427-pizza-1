@@ -11,12 +11,7 @@
       </router-link>
     </div>
     <div class="header__cart">
-      <router-link to="/cart"
-        >{{
-          Object.keys(userOrder).length ? userOrder[0].price : 0
-        }}
-        ₽</router-link
-      >
+      <router-link to="/cart">{{ issetOrder ? getTotalSum : 0 }} ₽</router-link>
     </div>
     <div v-if="isAuth" class="header__user">
       <router-link to="/profile">
@@ -51,18 +46,17 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "AppLayoutHeader",
-  props: {
-    userOrder: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
   data() {
     return {
       isAuth: true,
     };
+  },
+  computed: {
+    ...mapGetters("Orders", ["issetOrder", "getTotalSum"]),
   },
 };
 </script>
