@@ -6,22 +6,18 @@
         type="text"
         name="pizza_name"
         placeholder="Введите название пиццы"
-        v-model="pizzaName"
+        v-model="getPizzaName"
       />
     </label>
 
     <div class="content__constructor">
       <div class="pizza" :class="resultClassPizza">
         <AppDrop @drop="dropItemHandler">
-          <SelectorItem :userSelectedIngredients="userSelectedIngredients" />
+          <SelectorItem />
         </AppDrop>
       </div>
     </div>
-    <BuilderPriceCounter
-      @addToCard="addToCardHandler"
-      :price="price"
-      :pizzaName="pizzaName"
-    />
+    <BuilderPriceCounter :pizzaName="getPizzaName" />
   </div>
 </template>
 <script>
@@ -29,27 +25,10 @@ import AppDrop from "@/common/components/AppDrop";
 import BuilderPriceCounter from "@/modules/builder/components/BuilderPriceCounter";
 import SelectorItem from "@/common/components/SelectorItem";
 import { pizzaType, pizzaSauce } from "@/static/mapper";
+import { mapActions, mapGetters, mapState } from "vuex";
 
 export default {
   name: "BuilderPizzaView",
-  props: {
-    userSelectedIngredients: {
-      type: Object,
-      required: true,
-    },
-    selectedDough: {
-      type: Number,
-      required: true,
-    },
-    selectedSauce: {
-      type: Number,
-      required: true,
-    },
-    price: {
-      type: Number,
-      required: true,
-    },
-  },
   components: {
     AppDrop,
     BuilderPriceCounter,
@@ -63,6 +42,21 @@ export default {
     };
   },
   computed: {
+    ...mapState("Builder", ["selectedDough", "selectedSauce"]),
+    ...mapGetters("Builder", ["getUserSelectedIngredients"]),
+    ...mapState("Orders", ["editableOrderId", "userOrder"]),
+    getPizzaName: {
+      get() {
+        if (this.editableOrderId) {
+          return this.userOrder.find((item) => item.id === this.editableOrderId)
+            .pizzaName;
+        }
+        return this.pizzaName;
+      },
+      set(newValue) {
+        this.pizzaName = newValue;
+      },
+    },
     resultClassPizza() {
       return `pizza--foundation--${pizzaType[this.selectedDough]}-${
         pizzaSauce[this.selectedSauce]
@@ -70,14 +64,18 @@ export default {
     },
   },
   methods: {
-    addToCardHandler(value) {
-      this.$emit("addToCard", { send: value, name: this.pizzaName });
-    },
+    ...mapActions("Builder", ["updateIngredients"]),
     dropItemHandler(ingredient) {
-      const count = this.userSelectedIngredients[ingredient.id]
-        ? this.userSelectedIngredients[ingredient.id].count + 1
-        : 1;
-      this.$emit("dropItem", { ingredient: ingredient.id, count });
+      const item = this.getUserSelectedIngredients.find(
+        (item) => item.id === ingredient.id
+      );
+      let count;
+      if (item) {
+        count = item.count + 1;
+      } else {
+        count = 1;
+      }
+      this.updateIngredients({ id: ingredient.id, count });
     },
   },
 };

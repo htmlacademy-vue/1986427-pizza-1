@@ -1,26 +1,25 @@
 <template>
   <div class="pizza__wrapper">
-    <template v-if="!Object.keys(userSelectedIngredients).length">
+    <template v-if="!Object.keys(getUserSelectedIngredients).length">
       <div class="pizza__filling pizza__filling--ananas"></div>
       <div class="pizza__filling pizza__filling--bacon"></div>
       <div class="pizza__filling pizza__filling--cheddar"></div>
     </template>
     <div
       v-else
-      v-for="(ingredient, key) in Object.values(userSelectedIngredients)"
+      v-for="(ingredient, key) in Object.values(getUserSelectedIngredients)"
       :key="`ingredients-${key}`"
-      :class="getPizzaClasses(ingredient.name, ingredient.count)"
+      :class="getPizzaClasses(ingredient.className, ingredient.count)"
     ></div>
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "SelectorItem",
-  props: {
-    userSelectedIngredients: {
-      type: Object,
-      required: true,
-    },
+  computed: {
+    ...mapGetters("Builder", ["getUserSelectedIngredients"]),
   },
   methods: {
     getPizzaClasses(ingredient, cnt) {

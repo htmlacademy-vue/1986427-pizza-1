@@ -24,19 +24,10 @@
 import RadioButton from "@/common/components/RadioButton";
 import { DEFAULT_DOUGH } from "@/static/constants";
 import { pizzaDoughType } from "@/static/mapper";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "BuilderDoughSelector",
-  props: {
-    ingredients: {
-      type: Array,
-      require: true,
-    },
-    dough: {
-      type: Array,
-      require: true,
-    },
-  },
   components: {
     RadioButton,
   },
@@ -46,12 +37,16 @@ export default {
       pizzaDoughType,
     };
   },
+  computed: {
+    ...mapState("Builder", ["dough", "ingredients"]),
+  },
   methods: {
+    ...mapActions("Builder", ["setDough"]),
     getDoughType(type) {
       return pizzaDoughType[type] || "";
     },
     doughHandler(value) {
-      this.$emit("getDoughType", value);
+      this.setDough(value);
     },
   },
 };

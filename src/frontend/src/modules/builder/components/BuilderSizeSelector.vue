@@ -22,15 +22,9 @@
 <script>
 import RadioButton from "@/common/components/RadioButton";
 import { DEFAULT_SIZE } from "@/static/constants";
-
+import { mapActions, mapState } from "vuex";
 export default {
   name: "BuilderSizeSelector",
-  props: {
-    sizes: {
-      type: Array,
-      require: true,
-    },
-  },
   components: {
     RadioButton,
   },
@@ -39,14 +33,18 @@ export default {
       DEFAULT_SIZE,
     };
   },
+  computed: {
+    ...mapState("Builder", ["sizes"]),
+  },
   methods: {
+    ...mapActions("Builder", ["setSize"]),
     getSize(size) {
       const sizes = { 1: "small", 2: "normal", 3: "big" };
 
       return sizes[size] || "";
     },
     sizeHandler(value) {
-      this.$emit("getSize", value);
+      this.setSize(value);
     },
   },
 };

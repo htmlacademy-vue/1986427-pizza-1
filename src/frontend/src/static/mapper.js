@@ -13,7 +13,7 @@ export const pizzaSauce = {
   2: "creamy",
 };
 
-export const ingredientsNames = {
+export const ingredientsClassNames = {
   1: "mushrooms",
   2: "cheddar",
   3: "salami",
@@ -30,3 +30,9 @@ export const ingredientsNames = {
   14: "parmesan",
   15: "blue_cheese",
 };
+
+export const address = [
+  { id: 1, name: "Заберу сам" },
+  { id: 2, name: "Новый адрес" },
+  { id: 3, name: "Дом" },
+];
