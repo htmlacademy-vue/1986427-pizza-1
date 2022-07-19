@@ -14,8 +14,8 @@
         <div class="additional-list__wrapper">
           <ItemCounter
             :itemId="item.id"
-            :value="getCount(item.id, getAdditionalGoods)"
-            :disabled="isDisabled(item.id, getAdditionalGoods)"
+            :value="getCount(item)"
+            :disabled="isDisabled(item)"
             @countHandler="countHandler"
             class="additional-list__counter"
             modificatorRightBtn="counter__button--orange"
@@ -40,17 +40,13 @@ export default {
     ...mapState("Orders", ["misc"]),
     ...mapGetters("Orders", ["getAdditionalGoods"]),
   },
-  data() {
-    return {
-      getCount,
-      isDisabled,
-    };
-  },
   components: {
     ItemCounter,
   },
   methods: {
     ...mapActions("Orders", ["setCountAdditionalGoods"]),
+    getCount,
+    isDisabled,
     countHandler(value) {
       this.setCountAdditionalGoods(value);
     },

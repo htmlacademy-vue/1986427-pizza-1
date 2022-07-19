@@ -27,7 +27,7 @@ export default {
       resetOrdersState: "resetOrdersState",
     }),
     ...mapActions("Builder", {
-      builerInit: "init",
+      builderInit: "init",
       resetBuilderState: "resetBuilderState",
     }),
     close() {
@@ -40,7 +40,7 @@ export default {
       this.resetOrdersState();
       this.resetBuilderState();
       this.ordersInit();
-      this.builerInit();
+      this.builderInit();
       this.$router.push({ name: "IndexHome" });
     },
   },

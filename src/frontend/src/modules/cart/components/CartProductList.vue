@@ -26,8 +26,8 @@
       <div class="counter cart-list__counter">
         <ItemCounter
           :itemId="order.id"
-          :value="getCount(order.id, userOrder, 1)"
-          :disabled="isDisabled(order.id, userOrder)"
+          :value="getCount(order)"
+          :disabled="isDisabled(order)"
           @countHandler="countHandler"
           class="additional-list__counter"
           modificatorRightBtn="counter__button--orange"
@@ -64,15 +64,11 @@ export default {
   components: {
     ItemCounter,
   },
-  data() {
-    return {
-      getCount,
-      isDisabled,
-    };
-  },
   methods: {
     ...mapActions("Orders", ["updateOrder", "deleteOrder", "setEditableOrder"]),
     ...mapActions("Builder", ["updateIngredients"]),
+    getCount,
+    isDisabled,
     editPizza(id) {
       const compound = this.userOrder.find((item) => item.id === id).compound;
       this.ingredients.forEach((ingredient) => {

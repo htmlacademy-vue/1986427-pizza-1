@@ -24,33 +24,29 @@ export default {
   state: defaultState(),
   getters: {
     getSoucePrice(state) {
-      return state.sauces.filter((item) => item.id === state.selectedSauce)[0]
-        .price;
+      return state.sauces.find((item) => item.id === state.selectedSauce).price;
     },
     getDoughPrice(state) {
-      return state.dough.filter((item) => item.id === state.selectedDough)[0]
-        .price;
+      return state.dough.find((item) => item.id === state.selectedDough).price;
     },
     getSizePrice(state) {
-      return state.sizes.filter((item) => item.id === state.selectedSize)[0]
+      return state.sizes.find((item) => item.id === state.selectedSize)
         .multiplier;
     },
     calcIngredients(state, getters) {
-      let total = 0;
+      return getters.getUserSelectedIngredients.reduce((prev, cur) => {
+        const price = state.ingredients.find((item) => item.id === cur.id)[
+          "price"
+        ];
 
-      getters.getUserSelectedIngredients.forEach((ingredient) => {
-        const price = state.ingredients.find(
-          (item) => item.id === ingredient.id
-        )["price"];
+        prev += cur.count * price;
 
-        total += ingredient.count * price;
-      });
-
-      return total;
+        return prev;
+      }, 0);
     },
     getUserSelectedIngredients(state) {
       const res = [];
-      state.ingredients.map((ingredient) => {
+      state.ingredients.forEach((ingredient) => {
         const id = ingredient.id;
         if (ingredient.count && ingredient.count > 0) {
           res.push({

@@ -65,11 +65,11 @@ export default {
   data() {
     return {
       address,
-      selectedAddress: "",
-      userPhone: "",
       ADDRESS_SELF_DELIVERY,
       ADDRESS_NEW_DELIVERY,
       ADDRESS_HOME_DELIVERY,
+      userPhone: "",
+      selectedAddress: ADDRESS_SELF_DELIVERY,
     };
   },
   computed: {

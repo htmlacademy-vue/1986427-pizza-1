@@ -64,7 +64,6 @@ import AppDrag from "@/common/components/AppDrag";
 import ItemCounter from "@/common/components/ItemCounter";
 import RadioButton from "@/common/components/RadioButton";
 import { DEFAULT_SAUCE } from "@/static/constants";
-import { isDisabled, getCount } from "@/static/helper";
 import { ingredientsClassNames } from "@/static/mapper";
 import { mapActions, mapState, mapGetters } from "vuex";
 
@@ -79,8 +78,6 @@ export default {
     return {
       DEFAULT_SAUCE,
       ingredientsClassNames,
-      isDisabled,
-      getCount,
     };
   },
   computed: {
@@ -94,6 +91,37 @@ export default {
     },
     countHandler(value) {
       this.updateIngredients(value);
+    },
+    getCount(id) {
+      if (this.getUserSelectedIngredients.length === 0) {
+        return 0;
+      }
+
+      const curItem = this.getUserSelectedIngredients.find(
+        (item) => item.id === id
+      );
+
+      if (curItem) {
+        return curItem.count;
+      }
+
+      return 0;
+    },
+    isDisabled(id) {
+      if (this.getUserSelectedIngredients.length === 0) {
+        return false;
+      }
+
+      const curItem = this.getUserSelectedIngredients.find(
+        (item) => item.id === id
+      );
+      if (curItem?.count > 2) {
+        return true;
+      }
+
+      return (
+        this.getUserSelectedIngredients.length > 2 && curItem === undefined
+      );
     },
   },
 };
