@@ -14,12 +14,14 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
 
 export default {
   name: "OrderComplete",
   computed: {
-    ...mapState("Auth", ["isAuth"]),
+    ...mapState("Auth", ["user"]),
+    ...mapState("Orders", ["userOrder", "userAddress"]),
+    ...mapGetters("Orders", ["getAdditionalGoods"]),
   },
   methods: {
     ...mapActions("Orders", {
@@ -30,18 +32,50 @@ export default {
       builderInit: "init",
       resetBuilderState: "resetBuilderState",
     }),
-    close() {
-      if (this.isAuth) {
-        this.$router.push("HistoryOrders");
-
-        return;
+    async close() {
+      if (!this.user) {
+        this.reInit();
+        this.$router.push({ name: "IndexHome" });
       }
 
+      const pizzas = [];
+      this.userOrder.forEach((order) => {
+        const ingredients = order.ingredients.map((item) => ({
+          ingredientId: item.ingredientId,
+          quantity: item.quantity,
+        }));
+
+        pizzas.push({
+          name: order.name,
+          sauceId: order.sauceId,
+          doughId: order.doughId,
+          sizeId: order.sizeId,
+          quantity: order.quantity,
+          ingredients,
+        });
+      });
+
+      const misc = this.getAdditionalGoods.map((item) => ({
+        miscId: item.id,
+        quantity: item.quantity,
+      }));
+
+      await this.$api.orders.post({
+        userId: this.user.id,
+        phone: this.user.phone,
+        address: this.userAddress,
+        pizzas,
+        misc,
+      });
+
+      this.reInit();
+      this.$router.push("orders");
+    },
+    reInit() {
       this.resetOrdersState();
       this.resetBuilderState();
       this.ordersInit();
       this.builderInit();
-      this.$router.push({ name: "IndexHome" });
     },
   },
 };

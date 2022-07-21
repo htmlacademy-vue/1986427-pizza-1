@@ -32,7 +32,7 @@
 
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
-import { isDisabled, getCount } from "@/static/helper";
+import { isDisabled, getCount } from "@/common/helper";
 import ItemCounter from "@/common/components/ItemCounter";
 export default {
   name: "CartAdditional",

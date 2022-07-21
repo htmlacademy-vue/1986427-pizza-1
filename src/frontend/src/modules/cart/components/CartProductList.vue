@@ -1,5 +1,5 @@
 <template>
-  <ul class="cart-list sheet">
+  <ul v-if="userOrder.length" class="cart-list sheet">
     <li
       v-for="(order, key) in userOrder"
       :key="`cart - list__item-${key}`"
@@ -11,14 +11,14 @@
           class="product__img"
           width="56"
           height="56"
-          :alt="order.pizzaName"
+          :alt="order.name"
         />
         <div class="product__text">
-          <h2>{{ order.pizzaName }}</h2>
+          <h2>{{ order.name }}</h2>
           <ul>
-            <li>{{ order.size }}, {{ order.dough }}</li>
-            <li>Соус: {{ order.sauce }}</li>
-            <li>Начинка: {{ getIngredients(order.compound) }}</li>
+            <li>{{ getSizeName(order) }}, {{ getDoughName(order) }}</li>
+            <li>Соус: {{ getSouceName(order) }}</li>
+            <li>Начинка: {{ getIngredientsNames(order.ingredients) }}</li>
           </ul>
         </div>
       </div>
@@ -52,7 +52,7 @@
 </template>
 <script>
 import ItemCounter from "@/common/components/ItemCounter";
-import { isDisabled, getCount } from "@/static/helper";
+import { isDisabled, getCount } from "@/common/helper";
 import { mapState, mapActions } from "vuex";
 
 export default {
@@ -64,40 +64,47 @@ export default {
   components: {
     ItemCounter,
   },
+  data() {
+    return {
+      dough: [],
+      sizes: [],
+      sauces: [],
+    };
+  },
+  async created() {
+    this.dough = await this.$api.builderIngredients.getDough();
+    this.sizes = await this.$api.builderIngredients.getSizes();
+    this.sauces = await this.$api.builderIngredients.getSauces();
+  },
   methods: {
     ...mapActions("Orders", ["updateOrder", "deleteOrder", "setEditableOrder"]),
     ...mapActions("Builder", ["updateIngredients"]),
     getCount,
     isDisabled,
     editPizza(id) {
-      const compound = this.userOrder.find((item) => item.id === id).compound;
+      const selectedIngredients = this.userOrder.find(
+        (item) => item.id === id
+      ).ingredients;
       this.ingredients.forEach((ingredient) => {
-        const selectedIngredient = compound.filter(
-          (item) => item.id === ingredient.id
+        const selectedIngredient = selectedIngredients.find(
+          (item) => item.ingredientId === ingredient.id
         );
-        if (selectedIngredient.length) {
+        if (selectedIngredient) {
           this.updateIngredients({
-            id: selectedIngredient[0].id,
-            count: selectedIngredient[0].count,
+            id: selectedIngredient.ingredientId,
+            quantity: selectedIngredient.quantity,
           });
         } else {
-          this.updateIngredients({ id: ingredient.id, count: 0 });
+          this.updateIngredients({ id: ingredient.id, quantity: 0 });
         }
       });
       const curOrder = this.userOrder.find((item) => item.id === id);
       this.setEditableOrder(curOrder.id);
       this.$router.push({ name: "IndexHome" });
     },
-    getIngredients(ingredients) {
-      const result = [];
-      Object.values(ingredients).forEach((ingredient) => {
-        result.push(ingredient.name);
-      });
-      return result.join(", ");
-    },
     countHandler(value) {
-      const { count, id } = value;
-      if (count === 0) {
+      const { quantity, id } = value;
+      if (quantity === 0) {
         this.deleteOrder(value);
 
         return;
@@ -107,18 +114,46 @@ export default {
       const prevPrice = curOrder?.prevPrice || curOrder.price;
 
       let newPrice;
-      if (count >= curOrder.count) {
+      if (quantity >= curOrder.quantity) {
         newPrice = curOrder.price + prevPrice;
       } else {
         newPrice = curOrder.price - prevPrice;
       }
 
       this.updateOrder({
-        count,
+        quantity,
         id,
         price: newPrice,
         prevPrice,
       });
+    },
+    getSouceName(order) {
+      if (!this.sauces.length) {
+        return "";
+      }
+      return this.sauces.find((el) => el.id === order.sauceId).name;
+    },
+    getDoughName(order) {
+      if (!this.dough.length) {
+        return "";
+      }
+      return this.dough.find((el) => el.id === order.doughId).name;
+    },
+    getSizeName(order) {
+      if (!this.sizes.length) {
+        return "";
+      }
+      return this.sizes.find((el) => el.id === order.sizeId).name;
+    },
+    getIngredientsNames(order) {
+      return order
+        .map((orderItem) => {
+          const item = this.ingredients.find(
+            (ingredient) => ingredient.id === orderItem.ingredientId
+          );
+          return item.name;
+        })
+        .join(", ");
     },
   },
 };

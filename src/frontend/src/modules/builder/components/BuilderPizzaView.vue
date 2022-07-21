@@ -6,7 +6,7 @@
         type="text"
         name="pizza_name"
         placeholder="Введите название пиццы"
-        v-model="getPizzaName"
+        v-model="name"
       />
     </label>
 
@@ -17,7 +17,7 @@
         </AppDrop>
       </div>
     </div>
-    <BuilderPriceCounter :pizzaName="getPizzaName" />
+    <BuilderPriceCounter :name="getPizzaName" />
   </div>
 </template>
 <script>
@@ -38,7 +38,7 @@ export default {
     return {
       pizzaType,
       pizzaSauce,
-      pizzaName: "",
+      name: "",
     };
   },
   computed: {
@@ -49,12 +49,12 @@ export default {
       get() {
         if (this.editableOrderId) {
           return this.userOrder.find((item) => item.id === this.editableOrderId)
-            .pizzaName;
+            .name;
         }
-        return this.pizzaName;
+        return this.name;
       },
       set(newValue) {
-        this.pizzaName = newValue;
+        this.name = newValue;
       },
     },
     resultClassPizza() {
@@ -67,15 +67,15 @@ export default {
     ...mapActions("Builder", ["updateIngredients"]),
     dropItemHandler(ingredient) {
       const item = this.getUserSelectedIngredients.find(
-        (item) => item.id === ingredient.id
+        (item) => item.ingredientId === ingredient.id
       );
-      let count;
+      let quantity;
       if (item) {
-        count = item.count + 1;
+        quantity = item.quantity + 1;
       } else {
-        count = 1;
+        quantity = 1;
       }
-      this.updateIngredients({ id: ingredient.id, count });
+      this.updateIngredients({ id: ingredient.id, quantity });
     },
   },
 };
