@@ -36,8 +36,9 @@ export default {
       if (!this.user) {
         this.reInit();
         this.$router.push({ name: "IndexHome" });
-      }
 
+        return;
+      }
       const pizzas = [];
       this.userOrder.forEach((order) => {
         const ingredients = order.ingredients.map((item) => ({
