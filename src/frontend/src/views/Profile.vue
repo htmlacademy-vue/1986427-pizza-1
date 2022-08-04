@@ -112,9 +112,7 @@
           >
             Удалить
           </button>
-          <button @click="saveAddress" type="submit" class="button">
-            Сохранить
-          </button>
+          <button @click="saveAddress" class="button">Сохранить</button>
         </div>
       </form>
     </div>

@@ -139,10 +139,7 @@ export default {
         { name: "comment", value: " " },
         { name: "userPhone", value: " " },
       ];
-      values.forEach((field) => {
-        this[field.name] = field.value;
-        this.setAddressEntity(field.name, field.value);
-      });
+      this.setAddressEntity(values);
     },
     setOrderAddress() {
       const { street, building, flat } = this.availableAddress.find(
@@ -153,15 +150,12 @@ export default {
         { name: "building", value: building },
         { name: "flat", value: flat },
       ];
-      values.forEach((field) => {
-        this[field.name] = field.value;
-        this.setAddressEntity(field.name, field.value);
-      });
+      this.setAddressEntity(values);
     },
-    setAddressEntity(name, value) {
-      this.$emit("setAddressEntity", {
-        field: name,
-        value,
+    setAddressEntity(data) {
+      data.forEach((field) => {
+        this[field.name] = field.value;
+        this.$emit("setAddressEntity", field);
       });
     },
   },
