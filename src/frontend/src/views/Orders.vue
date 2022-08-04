@@ -161,16 +161,16 @@ export default {
           });
         }
 
+        let addressDelivery = `Адрес доставки: ${order.orderAddress.name} ул. ${order.orderAddress.street} д. ${order.orderAddress.building}`;
+        if (order.orderAddress.flat) {
+          addressDelivery += ` кв. ${order.orderAddress.flat}`;
+        }
         pizzas.push({
           pizza: { ...pizza },
           misc: miscUser,
           totalSum: totalSum + miscSum,
           orderId: order.id,
-          orderAddress: `Адрес доставки: ${order.orderAddress.name} ул. ${
-            order.orderAddress.street
-          } д. ${order.orderAddress.building} кв. ${
-            order.orderAddress.flat || ""
-          }`,
+          orderAddress: addressDelivery,
         });
       });
       this.orders = pizzas;

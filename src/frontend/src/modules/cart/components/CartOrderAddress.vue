@@ -132,36 +132,30 @@ export default {
   },
   methods: {
     clear() {
-      const values = [
+      const clearAddress = [
         { name: "street", value: " " },
         { name: "building", value: " " },
         { name: "flat", value: " " },
         { name: "comment", value: " " },
         { name: "userPhone", value: " " },
       ];
-      values.forEach((field) => {
-        this[field.name] = field.value;
-        this.setAddressEntity(field.name, field.value);
-      });
+      this.setAddressEntity(clearAddress);
     },
     setOrderAddress() {
       const { street, building, flat } = this.availableAddress.find(
         (address) => address.id === this.selectedAddress
       );
-      const values = [
+      const curAddress = [
         { name: "street", value: street },
         { name: "building", value: building },
         { name: "flat", value: flat },
       ];
-      values.forEach((field) => {
-        this[field.name] = field.value;
-        this.setAddressEntity(field.name, field.value);
-      });
+      this.setAddressEntity(curAddress);
     },
-    setAddressEntity(name, value) {
-      this.$emit("setAddressEntity", {
-        field: name,
-        value,
+    setAddressEntity(data) {
+      data.forEach((field) => {
+        this[field.name] = field.value;
+        this.$emit("setAddressEntity", field);
       });
     },
   },
