@@ -64,13 +64,6 @@ export default {
   components: {
     ItemCounter,
   },
-  data() {
-    return {
-      dough: [],
-      sizes: [],
-      sauces: [],
-    };
-  },
   methods: {
     ...mapActions("Orders", ["updateOrder", "deleteOrder", "setEditableOrder"]),
     ...mapActions("Builder", ["updateIngredients"]),
