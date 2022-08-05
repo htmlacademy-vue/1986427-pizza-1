@@ -34,7 +34,7 @@ export default {
     }),
     async close() {
       if (!this.user) {
-        this.reInit();
+        await this.reInit();
         this.$router.push({ name: "IndexHome" });
 
         return;
@@ -69,14 +69,14 @@ export default {
         misc,
       });
 
-      this.reInit();
+      await this.reInit();
       this.$router.push("orders");
     },
-    reInit() {
+    async reInit() {
       this.resetOrdersState();
       this.resetBuilderState();
-      this.ordersInit();
-      this.builderInit();
+      await this.ordersInit();
+      await this.builderInit();
     },
   },
 };

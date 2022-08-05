@@ -49,8 +49,8 @@ export default {
   },
   methods: {
     setAddressEntityHandler(params) {
-      const { field, value } = params;
-      this.addressValues[field] = value;
+      const { name, value } = params;
+      this.addressValues[name] = value;
     },
   },
 };

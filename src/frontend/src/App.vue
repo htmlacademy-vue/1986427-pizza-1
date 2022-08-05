@@ -71,7 +71,7 @@ export default {
     await this.$store.dispatch("Orders/init");
     if (this.$jwt.getToken()) {
       this.$api.auth.setAuthHeader();
-      this.$store.dispatch("Auth/setUser");
+      await this.$store.dispatch("Auth/setUser");
     }
   },
 };

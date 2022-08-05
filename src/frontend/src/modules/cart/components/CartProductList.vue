@@ -58,7 +58,7 @@ import { mapState, mapActions } from "vuex";
 export default {
   name: "CartProductList",
   computed: {
-    ...mapState("Orders", ["userOrder"]),
+    ...mapState("Orders", ["userOrder", "dough", "sizes", "sauces"]),
     ...mapState("Builder", ["ingredients"]),
   },
   components: {
@@ -70,11 +70,6 @@ export default {
       sizes: [],
       sauces: [],
     };
-  },
-  async created() {
-    this.dough = await this.$api.builderIngredients.getDough();
-    this.sizes = await this.$api.builderIngredients.getSizes();
-    this.sauces = await this.$api.builderIngredients.getSauces();
   },
   methods: {
     ...mapActions("Orders", ["updateOrder", "deleteOrder", "setEditableOrder"]),

@@ -96,7 +96,14 @@ export default {
     };
   },
   computed: {
-    ...mapState("Orders", ["userOrder"]),
+    ...mapState("Orders", [
+      "userOrder",
+      "dough",
+      "sizes",
+      "sauces",
+      "misc",
+      "ingredients",
+    ]),
   },
   async created() {
     await this.getOrders();
@@ -106,11 +113,6 @@ export default {
     async getOrders() {
       const pizzas = [];
       const orders = await this.$api.orders.query();
-      const misc = await this.$api.misc.query();
-      const dough = await this.$api.builderIngredients.getDough();
-      const sizes = await this.$api.builderIngredients.getSizes();
-      const sauces = await this.$api.builderIngredients.getSauces();
-      const ingredients = await this.$api.builderIngredients.getIngredients();
 
       orders.forEach((order) => {
         const pizza = [];
@@ -121,16 +123,20 @@ export default {
           let sumIngredients = 0;
 
           orderItem.ingredients.forEach((orderIngredient) => {
-            const item = ingredients.find(
+            const item = this.ingredients.find(
               (ingredient) => ingredient.id === orderIngredient.ingredientId
             );
             sumIngredients += item.price;
             ingredientsNames.push(item.name);
           });
 
-          const saucesItem = sauces.find((el) => el.id === orderItem.sauceId);
-          const doughItem = dough.find((el) => el.id === orderItem.doughId);
-          const sizesItem = sizes.find((el) => el.id === orderItem.sizeId);
+          const saucesItem = this.sauces.find(
+            (el) => el.id === orderItem.sauceId
+          );
+          const doughItem = this.dough.find(
+            (el) => el.id === orderItem.doughId
+          );
+          const sizesItem = this.sizes.find((el) => el.id === orderItem.sizeId);
           sum =
             sizesItem.multiplier *
             (saucesItem.price + doughItem.price + sumIngredients);
@@ -153,7 +159,7 @@ export default {
         let miscUser = [];
         if (order.orderMisc) {
           miscUser = order.orderMisc.map((userMisc) => {
-            const item = misc.find(
+            const item = this.misc.find(
               (miscItem) => miscItem.id === userMisc.miscId
             );
             miscSum += item.price * userMisc.quantity;
