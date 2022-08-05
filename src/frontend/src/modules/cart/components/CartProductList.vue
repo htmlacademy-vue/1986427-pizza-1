@@ -116,19 +116,19 @@ export default {
       });
     },
     getSouceName(order) {
-      if (!this.sauces.length) {
+      if (!this.sauces) {
         return "";
       }
       return this.sauces.find((el) => el.id === order.sauceId).name;
     },
     getDoughName(order) {
-      if (!this.dough.length) {
+      if (!this.dough) {
         return "";
       }
       return this.dough.find((el) => el.id === order.doughId).name;
     },
     getSizeName(order) {
-      if (!this.sizes.length) {
+      if (!this.sizes) {
         return "";
       }
       return this.sizes.find((el) => el.id === order.sizeId).name;
