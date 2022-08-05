@@ -58,8 +58,8 @@ import { mapState, mapActions } from "vuex";
 export default {
   name: "CartProductList",
   computed: {
-    ...mapState("Orders", ["userOrder", "dough", "sizes", "sauces"]),
-    ...mapState("Builder", ["ingredients"]),
+    ...mapState("Orders", ["userOrder"]),
+    ...mapState("Builder", ["ingredients", "dough", "sizes", "sauces"]),
   },
   components: {
     ItemCounter,
@@ -116,19 +116,19 @@ export default {
       });
     },
     getSouceName(order) {
-      if (!this.sauces) {
+      if (!this.sauces.length) {
         return "";
       }
       return this.sauces.find((el) => el.id === order.sauceId).name;
     },
     getDoughName(order) {
-      if (!this.dough) {
+      if (!this.dough.length) {
         return "";
       }
       return this.dough.find((el) => el.id === order.doughId).name;
     },
     getSizeName(order) {
-      if (!this.sizes) {
+      if (!this.sizes.length) {
         return "";
       }
       return this.sizes.find((el) => el.id === order.sizeId).name;
