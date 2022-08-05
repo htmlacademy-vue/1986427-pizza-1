@@ -96,14 +96,8 @@ export default {
     };
   },
   computed: {
-    ...mapState("Orders", [
-      "userOrder",
-      "dough",
-      "sizes",
-      "sauces",
-      "misc",
-      "ingredients",
-    ]),
+    ...mapState("Builder", ["dough", "sizes", "sauces", "misc", "ingredients"]),
+    ...mapState("Orders", ["userOrder"]),
   },
   async created() {
     await this.getOrders();
