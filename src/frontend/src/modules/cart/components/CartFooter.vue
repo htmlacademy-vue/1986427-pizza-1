@@ -19,16 +19,35 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-
+import { mapActions, mapGetters } from "vuex";
+import { ADDRESS_NEW_DELIVERY } from "@/static/constants";
 export default {
   name: "CartFooter",
+  props: {
+    addresses: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
   computed: {
     ...mapGetters("Orders", ["issetOrder", "getTotalSum"]),
     ...mapGetters("Auth", ["isAuth"]),
   },
   methods: {
+    ...mapActions("Orders", ["setAddress"]),
     completeOrder() {
+      const { street, building, flat, selectedAddress } = this.addresses;
+      if (
+        selectedAddress === ADDRESS_NEW_DELIVERY &&
+        (!street.length || !building)
+      ) {
+        return;
+      }
+      this.setAddress({
+        street,
+        building,
+        flat,
+      });
       this.$router.push({ name: "OrderComplete" });
     },
   },

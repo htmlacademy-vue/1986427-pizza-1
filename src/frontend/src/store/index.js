@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import modules from "@/store/modules";
+import VuexPlugins from "@/plugins/vuexPlugins";
 
 import {
   DELETE_ENTITY,
@@ -40,4 +41,5 @@ export default new Vuex.Store({
   actions: {},
   mutations,
   modules,
+  plugins: [VuexPlugins],
 });

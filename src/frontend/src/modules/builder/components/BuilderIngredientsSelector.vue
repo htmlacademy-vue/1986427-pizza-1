@@ -98,11 +98,11 @@ export default {
       }
 
       const curItem = this.getUserSelectedIngredients.find(
-        (item) => item.id === id
+        (item) => item.ingredientId === id
       );
 
       if (curItem) {
-        return curItem.count;
+        return curItem.quantity;
       }
 
       return 0;
@@ -113,9 +113,9 @@ export default {
       }
 
       const curItem = this.getUserSelectedIngredients.find(
-        (item) => item.id === id
+        (item) => item.ingredientId === id
       );
-      if (curItem?.count > 2) {
+      if (curItem?.quantity > 2) {
         return true;
       }
 

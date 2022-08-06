@@ -8,14 +8,14 @@
         <template v-if="issetOrder">
           <CartProductList />
           <CartAdditional />
-          <CartOrderAddress />
+          <CartOrderAddress @updateAddressEntity="updateAddressEntityHandler" />
         </template>
         <div v-else class="sheet cart__empty">
           <p>В корзине нет ни одного товара</p>
         </div>
       </div>
     </main>
-    <CartFooter />
+    <CartFooter :addresses="addressValues" />
   </form>
 </template>
 
@@ -34,9 +34,24 @@ export default {
     CartProductList,
     CartOrderAddress,
   },
+  data() {
+    return {
+      addressValues: {
+        street: " ",
+        building: " ",
+        flat: " ",
+      },
+    };
+  },
   computed: {
     ...mapState("Orders", ["userOrder"]),
     ...mapGetters("Orders", ["issetOrder"]),
+  },
+  methods: {
+    updateAddressEntityHandler(params) {
+      const { name, value } = params;
+      this.addressValues[name] = value;
+    },
   },
 };
 </script>

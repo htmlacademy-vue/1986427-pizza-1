@@ -5,7 +5,6 @@ import {
   SET_ENTITY,
   RESET_ENTITY,
 } from "@/store/mutation-types";
-import misc from "@/static/misc.json";
 
 const moduleName = "Orders";
 
@@ -13,6 +12,7 @@ const defaultState = () => ({
   misc: [],
   userOrder: [],
   editableOrderId: null,
+  userAddress: [],
 });
 
 export default {
@@ -36,8 +36,8 @@ export default {
       let total = 0;
       Object.keys(getters.getAdditionalGoods).forEach((id) => {
         const item = getters.getAdditionalGoods[+id];
-        if (item.count) {
-          total += item.price * item.count;
+        if (item.quantity) {
+          total += item.price * item.quantity;
         }
       });
       return total;
@@ -48,11 +48,11 @@ export default {
     getAdditionalGoods(state) {
       const res = [];
       state.misc.forEach((item) => {
-        const { count, id, price } = item;
-        if (item.count && item.count > 0) {
+        const { quantity, id, price } = item;
+        if (item.quantity && item.quantity > 0) {
           res.push({
             price,
-            count,
+            quantity,
             id,
           });
         }
@@ -63,14 +63,14 @@ export default {
   },
   actions: {
     setCountAdditionalGoods({ commit, state }, additionalOrder) {
-      const { id, count } = additionalOrder;
+      const { id, quantity } = additionalOrder;
       const miscItem = state.misc.find((item) => item.id === id);
       commit(
         UPDATE_ENTITY,
         {
           entity: "misc",
           module: moduleName,
-          value: Object.assign(miscItem, { count }),
+          value: Object.assign(miscItem, { quantity }),
         },
         { root: true }
       );
@@ -82,6 +82,17 @@ export default {
           entity: "userOrder",
           module: moduleName,
           value: order,
+        },
+        { root: true }
+      );
+    },
+    setAddress({ commit }, address) {
+      commit(
+        SET_ENTITY,
+        {
+          entity: "userAddress",
+          module: moduleName,
+          value: address,
         },
         { root: true }
       );
@@ -111,7 +122,7 @@ export default {
     },
     updateOrder({ commit, state }, order) {
       const { id } = order;
-      const curOrder = state.userOrder.find((item) => item.id === id);
+      const curOrder = state.userOrder.find((item) => item.id === id) || {};
 
       commit(
         UPDATE_ENTITY,
@@ -123,7 +134,9 @@ export default {
         { root: true }
       );
     },
-    init({ commit }) {
+    async init({ commit }) {
+      const misc = await this.$api.misc.query();
+
       commit(
         SET_ENTITY,
         {

@@ -66,9 +66,13 @@ export default {
   components: {
     AppLayout,
   },
-  created() {
-    this.$store.dispatch("Builder/init");
-    this.$store.dispatch("Orders/init");
+  async created() {
+    await this.$store.dispatch("Builder/init");
+    await this.$store.dispatch("Orders/init");
+    if (this.$jwt.getToken()) {
+      this.$api.auth.setAuthHeader();
+      await this.$store.dispatch("Auth/setUser");
+    }
   },
 };
 </script>

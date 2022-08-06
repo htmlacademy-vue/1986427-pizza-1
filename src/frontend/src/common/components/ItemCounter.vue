@@ -43,13 +43,13 @@ export default {
   methods: {
     subtraction() {
       this.$emit("countHandler", {
-        count: this.value - 1,
+        quantity: this.value - 1,
         id: this.itemId,
       });
     },
     addition() {
       this.$emit("countHandler", {
-        count: this.value + 1,
+        quantity: this.value + 1,
         id: this.itemId,
       });
     },

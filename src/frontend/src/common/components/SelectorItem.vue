@@ -9,7 +9,7 @@
       v-else
       v-for="(ingredient, key) in Object.values(getUserSelectedIngredients)"
       :key="`ingredients-${key}`"
-      :class="getPizzaClasses(ingredient.className, ingredient.count)"
+      :class="getPizzaClasses(ingredient.className, ingredient.quantity)"
     ></div>
   </div>
 </template>

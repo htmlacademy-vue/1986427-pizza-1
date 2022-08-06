@@ -1,4 +1,3 @@
-import pizza from "@/static/pizza.json";
 import { ingredientsClassNames } from "@/static/mapper";
 import {
   SET_ENTITY,
@@ -15,7 +14,7 @@ const defaultState = () => ({
   selectedDough: 1,
   selectedSize: 2,
   selectedSauce: 1,
-  pizzaName: "",
+  name: "",
   price: 0,
 });
 
@@ -35,11 +34,11 @@ export default {
     },
     calcIngredients(state, getters) {
       return getters.getUserSelectedIngredients.reduce((prev, cur) => {
-        const price = state.ingredients.find((item) => item.id === cur.id)[
-          "price"
-        ];
+        const price = state.ingredients.find(
+          (item) => item.id === cur.ingredientId
+        )["price"];
 
-        prev += cur.count * price;
+        prev += cur.quantity * price;
 
         return prev;
       }, 0);
@@ -47,13 +46,13 @@ export default {
     getUserSelectedIngredients(state) {
       const res = [];
       state.ingredients.forEach((ingredient) => {
-        const id = ingredient.id;
-        if (ingredient.count && ingredient.count > 0) {
+        const ingredientId = ingredient.id;
+        if (ingredient.quantity && ingredient.quantity > 0) {
           res.push({
-            id,
-            className: ingredientsClassNames[id],
+            ingredientId,
+            className: ingredientsClassNames[ingredientId],
             name: ingredient.name,
-            count: ingredient.count,
+            quantity: ingredient.quantity,
           });
         }
       });
@@ -118,22 +117,25 @@ export default {
       dispatch("setPrice");
     },
     updateIngredients({ commit, dispatch, state }, ingredientValues) {
-      const { id, count } = ingredientValues;
+      const { id, quantity } = ingredientValues;
       const ingredient = state.ingredients[id - 1];
       commit(
         UPDATE_ENTITY,
         {
           entity: "ingredients",
           module: moduleName,
-          value: Object.assign(ingredient, { count }),
+          value: Object.assign(ingredient, { quantity }),
         },
         { root: true }
       );
 
       dispatch("setPrice");
     },
-    init({ commit }) {
-      const { ingredients, sizes, dough, sauces } = pizza;
+    async init({ commit }) {
+      const ingredients = await this.$api.builderIngredients.getIngredients();
+      const dough = await this.$api.builderIngredients.getDough();
+      const sizes = await this.$api.builderIngredients.getSizes();
+      const sauces = await this.$api.builderIngredients.getSauces();
 
       commit(
         SET_ENTITY,
