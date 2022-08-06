@@ -8,7 +8,7 @@
         <template v-if="issetOrder">
           <CartProductList />
           <CartAdditional />
-          <CartOrderAddress @setAddressEntity="setAddressEntityHandler" />
+          <CartOrderAddress @updateAddressEntity="updateAddressEntityHandler" />
         </template>
         <div v-else class="sheet cart__empty">
           <p>В корзине нет ни одного товара</p>
@@ -48,7 +48,7 @@ export default {
     ...mapGetters("Orders", ["issetOrder"]),
   },
   methods: {
-    setAddressEntityHandler(params) {
+    updateAddressEntityHandler(params) {
       const { name, value } = params;
       this.addressValues[name] = value;
     },

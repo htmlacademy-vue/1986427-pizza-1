@@ -79,7 +79,7 @@
         </li>
       </ul>
 
-      <p class="order__address">Адрес доставки: {{ order.orderAddress }}</p>
+      <p class="order__address">{{ order.orderAddress }}</p>
     </section>
   </div>
 </template>

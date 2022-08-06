@@ -35,7 +35,12 @@
               type="text"
               name="street"
               v-model.trim="street"
-              @input="setAddressEntity('street', $event.target.value)"
+              @input="
+                updateAddressEntity({
+                  name: 'street',
+                  value: $event.target.value,
+                })
+              "
               :disabled="isDisabled"
             />
           </label>
@@ -48,7 +53,12 @@
               type="text"
               name="house"
               v-model.trim="building"
-              @input="setAddressEntity('building', $event.target.value)"
+              @input="
+                updateAddressEntity({
+                  name: 'building',
+                  value: $event.target.value,
+                })
+              "
               :disabled="isDisabled"
             />
           </label>
@@ -61,7 +71,12 @@
               type="text"
               name="apartment"
               v-model.trim="flat"
-              @input="setAddressEntity('flat', $event.target.value)"
+              @input="
+                updateAddressEntity({
+                  name: 'flat',
+                  value: $event.target.value,
+                })
+              "
               :disabled="isDisabled"
             />
           </label>
@@ -139,7 +154,8 @@ export default {
         { name: "comment", value: " " },
         { name: "userPhone", value: " " },
       ];
-      this.setAddressEntity(clearAddress);
+
+      this.setAddress(clearAddress);
     },
     setOrderAddress() {
       const { street, building, flat } = this.availableAddress.find(
@@ -150,13 +166,17 @@ export default {
         { name: "building", value: building },
         { name: "flat", value: flat },
       ];
-      this.setAddressEntity(curAddress);
+
+      this.setAddress(curAddress);
     },
-    setAddressEntity(data) {
+    setAddress(data) {
       data.forEach((field) => {
         this[field.name] = field.value;
-        this.$emit("setAddressEntity", field);
+        this.updateAddressEntity(field);
       });
+    },
+    updateAddressEntity(data) {
+      this.$emit("updateAddressEntity", data);
     },
   },
 };
