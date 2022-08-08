@@ -48,7 +48,7 @@ export default {
         building,
         flat,
       });
-      this.$router.push({ name: "OrderComplete" });
+      this.$emit("setOrderComplete", true);
     },
   },
 };

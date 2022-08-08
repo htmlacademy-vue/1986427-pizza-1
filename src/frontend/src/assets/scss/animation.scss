@@ -1,0 +1,28 @@
+.slide-enter-active {
+  transition: all 0.5s ease-out;
+}
+.slide-enter {
+  opacity: 0;
+  transform: translateX(-50%);
+}
+.fade-enter {
+  opacity: 0;
+}
+.fade-enter-active {
+  transition: all 1s linear;
+}
+.fade-enter-active {
+  transition: all 1s linear;
+}
+.fade-leave-to {
+  opacity: 0;
+}
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.scale-enter {
+  transition: all .2s ease-in-out;
+}
+.scale-enter-active {
+  transform: scale(15.1);
+}

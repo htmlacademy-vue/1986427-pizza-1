@@ -46,13 +46,14 @@
         type="font/woff"
         crossorigin="anonymous"
       />
-      <link rel="stylesheet" href="css/style.min.css" />
       <title>V!U!E! Pizza - главная</title>
     </head>
     <body>
       <div id="app">
         <AppLayout>
-          <router-view />
+          <transition name="slide" mode="out-in" :appear="isAnimated">
+            <router-view />
+          </transition>
         </AppLayout>
       </div>
     </body>
@@ -65,6 +66,11 @@ export default {
   name: "App",
   components: {
     AppLayout,
+  },
+  computed: {
+    isAnimated() {
+      return this.$route.name !== "Login";
+    },
   },
   async created() {
     await this.$store.dispatch("Builder/init");
