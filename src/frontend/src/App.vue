@@ -46,6 +46,7 @@
         type="font/woff"
         crossorigin="anonymous"
       />
+      <link rel="stylesheet" href="css/style.min.css" />
       <title>V!U!E! Pizza - главная</title>
     </head>
     <body>

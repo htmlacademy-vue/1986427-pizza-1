@@ -1,8 +1,6 @@
 <template>
   <component :is="layout">
-    <transition name="slide" mode="out-in">
-      <router-view />
-    </transition>
+    <router-view />
   </component>
 </template>
 
