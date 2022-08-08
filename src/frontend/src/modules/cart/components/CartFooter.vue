@@ -36,6 +36,10 @@ export default {
   methods: {
     ...mapActions("Orders", ["setAddress"]),
     completeOrder() {
+      if (!this.issetOrder) {
+        return;
+      }
+
       const { street, building, flat, selectedAddress } = this.addresses;
       if (
         selectedAddress === ADDRESS_NEW_DELIVERY &&
@@ -44,9 +48,6 @@ export default {
         return;
       }
 
-      if (!this.issetOrder) {
-        return;
-      }
       //если выбрал самовывоз, то ставим пустые
       this.setAddress({
         street: street || "",
