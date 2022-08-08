@@ -148,11 +148,11 @@ export default {
   methods: {
     clear() {
       const clearAddress = [
-        { name: "street", value: " " },
-        { name: "building", value: " " },
-        { name: "flat", value: " " },
-        { name: "comment", value: " " },
-        { name: "userPhone", value: " " },
+        { name: "street", value: "" },
+        { name: "building", value: "" },
+        { name: "flat", value: "" },
+        { name: "comment", value: "" },
+        { name: "userPhone", value: "" },
       ];
 
       this.setAddress(clearAddress);

@@ -5,20 +5,20 @@
   opacity: 0;
   transform: translateX(-50%);
 }
+.order-complete-enter,
 .fade-enter {
   opacity: 0;
 }
+.order-complete-enter-active,
 .fade-enter-active {
   transition: all 1s linear;
 }
-.fade-enter-active {
-  transition: all 1s linear;
-}
-.fade-leave-to {
+
+.order-complete-leave-to {
   opacity: 0;
 }
-.fade-leave-active {
-  transition: opacity 0.5s;
+.order-complete-leave-active {
+  transition: opacity 1.5s;
 }
 .scale-enter {
   transition: all .2s ease-in-out;

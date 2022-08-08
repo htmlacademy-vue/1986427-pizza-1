@@ -33,9 +33,9 @@ export default {
       resetBuilderState: "resetBuilderState",
     }),
     async close() {
+      this.startClosePopup();
       if (!this.user) {
         await this.reInit();
-        this.closePopup();
         this.$router.push({ name: "IndexHome" });
 
         return;
@@ -71,7 +71,6 @@ export default {
       });
 
       await this.reInit();
-      this.closePopup();
       this.$router.push("orders");
     },
     async reInit() {
@@ -80,7 +79,7 @@ export default {
       await this.ordersInit();
       await this.builderInit();
     },
-    closePopup() {
+    startClosePopup() {
       this.$emit("close", false);
     },
   },

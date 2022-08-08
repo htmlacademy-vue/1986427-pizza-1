@@ -19,7 +19,7 @@
       @setOrderComplete="showPopupHandler"
       :addresses="addressValues"
     />
-    <transition name="fade">
+    <transition name="order-complete">
       <CartOrderComplete v-if="showPopup" @close="showPopupHandler" />
     </transition>
   </form>
@@ -46,9 +46,9 @@ export default {
     return {
       showPopup: false,
       addressValues: {
-        street: " ",
-        building: " ",
-        flat: " ",
+        street: "",
+        building: "",
+        flat: "",
       },
     };
   },

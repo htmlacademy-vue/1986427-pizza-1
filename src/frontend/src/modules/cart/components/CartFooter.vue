@@ -39,13 +39,18 @@ export default {
       const { street, building, flat, selectedAddress } = this.addresses;
       if (
         selectedAddress === ADDRESS_NEW_DELIVERY &&
-        (!street.length || !building)
+        (!street.length || !building.length)
       ) {
         return;
       }
+
+      if (!this.issetOrder) {
+        return;
+      }
+      //если выбрал самовывоз, то ставим пустые
       this.setAddress({
-        street,
-        building,
+        street: street || "",
+        building: building || "",
         flat,
       });
       this.$emit("setOrderComplete", true);
