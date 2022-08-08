@@ -22,8 +22,7 @@
 
         <div class="ingredients__filling">
           <p>Начинка:</p>
-
-          <ul class="ingredients__list">
+          <transition-group class="ingredients__list" name="fade" tag="ul">
             <li
               v-for="ingredient in ingredients"
               :key="`ingredient-${ingredient.id}`"
@@ -53,7 +52,7 @@
                 @countHandler="countHandler"
               />
             </li>
-          </ul>
+          </transition-group>
         </div>
       </div>
     </div>

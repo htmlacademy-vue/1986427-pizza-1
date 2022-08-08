@@ -52,7 +52,9 @@
     <body>
       <div id="app">
         <AppLayout>
-          <router-view />
+          <transition name="slide" mode="out-in" :appear="isAnimated">
+            <router-view />
+          </transition>
         </AppLayout>
       </div>
     </body>
@@ -65,6 +67,11 @@ export default {
   name: "App",
   components: {
     AppLayout,
+  },
+  computed: {
+    isAnimated() {
+      return this.$route.name !== "Login";
+    },
   },
   async created() {
     await this.$store.dispatch("Builder/init");

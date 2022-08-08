@@ -11,7 +11,6 @@ export default [
     name: "Login",
     component: () => import("@/views/Login"),
     meta: {
-      layout: "AppLayoutDefault",
       middlewares: [isLoggedIn],
     },
   },
@@ -25,7 +24,7 @@ export default [
     name: "Orders",
     component: () => import("@/views/Orders"),
     meta: {
-      layout: "AppLayoutProfile",
+      layout: () => import("@/layouts/AppLayoutProfile"),
       middlewares: [auth],
     },
   },
@@ -34,13 +33,8 @@ export default [
     name: "Profile",
     component: () => import("@/views/Profile"),
     meta: {
-      layout: "AppLayoutProfile",
+      layout: () => import("@/layouts/AppLayoutProfile"),
       middlewares: [auth],
     },
-  },
-  {
-    path: "/order-complete",
-    name: "OrderComplete",
-    component: () => import("@/views/OrderComplete"),
   },
 ];

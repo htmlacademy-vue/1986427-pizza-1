@@ -17,7 +17,7 @@
 import { mapState, mapActions, mapGetters } from "vuex";
 
 export default {
-  name: "OrderComplete",
+  name: "CartOrderComplete",
   computed: {
     ...mapState("Auth", ["user"]),
     ...mapState("Orders", ["userOrder", "userAddress"]),
@@ -33,6 +33,7 @@ export default {
       resetBuilderState: "resetBuilderState",
     }),
     async close() {
+      this.startClosePopup();
       if (!this.user) {
         await this.reInit();
         this.$router.push({ name: "IndexHome" });
@@ -77,6 +78,9 @@ export default {
       this.resetBuilderState();
       await this.ordersInit();
       await this.builderInit();
+    },
+    startClosePopup() {
+      this.$emit("close", false);
     },
   },
 };

@@ -15,7 +15,13 @@
         </div>
       </div>
     </main>
-    <CartFooter :addresses="addressValues" />
+    <CartFooter
+      @setOrderComplete="showPopupHandler"
+      :addresses="addressValues"
+    />
+    <transition name="order-complete">
+      <CartOrderComplete v-if="showPopup" @close="showPopupHandler" />
+    </transition>
   </form>
 </template>
 
@@ -24,6 +30,7 @@ import CartFooter from "@/modules/cart/components/CartFooter";
 import CartAdditional from "@/modules/cart/components/CartAdditional";
 import CartProductList from "@/modules/cart/components/CartProductList";
 import CartOrderAddress from "@/modules/cart/components/CartOrderAddress";
+import CartOrderComplete from "@/modules/cart/components/CartOrderComplete";
 import { mapState, mapGetters } from "vuex";
 
 export default {
@@ -33,13 +40,15 @@ export default {
     CartAdditional,
     CartProductList,
     CartOrderAddress,
+    CartOrderComplete,
   },
   data() {
     return {
+      showPopup: false,
       addressValues: {
-        street: " ",
-        building: " ",
-        flat: " ",
+        street: "",
+        building: "",
+        flat: "",
       },
     };
   },
@@ -51,6 +60,9 @@ export default {
     updateAddressEntityHandler(params) {
       const { name, value } = params;
       this.addressValues[name] = value;
+    },
+    showPopupHandler(show) {
+      this.showPopup = show;
     },
   },
 };

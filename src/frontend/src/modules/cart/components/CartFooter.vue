@@ -36,19 +36,25 @@ export default {
   methods: {
     ...mapActions("Orders", ["setAddress"]),
     completeOrder() {
+      if (!this.issetOrder) {
+        return;
+      }
+
       const { street, building, flat, selectedAddress } = this.addresses;
       if (
         selectedAddress === ADDRESS_NEW_DELIVERY &&
-        (!street.length || !building)
+        (!street.length || !building.length)
       ) {
         return;
       }
+
+      //если выбрал самовывоз, то ставим пустые
       this.setAddress({
-        street,
-        building,
+        street: street || "",
+        building: building || "",
         flat,
       });
-      this.$router.push({ name: "OrderComplete" });
+      this.$emit("setOrderComplete", true);
     },
   },
 };
